@@ -6,7 +6,7 @@ const winningMessageTextElement = document.querySelector(`[data-winning-message-
 const winningMessageElement = document.getElementById(`winningMessage`)
 const restartButton = document.getElementById(`restartButton`)
 
-const X_CLASS = `x`, O_CLASS = `o`, DRAW_CLASS = `draw`
+const X_CLASS = `x`, O_CLASS = `o`, DRAW_CLASS = `draw`, INVALID_CLASS = `invalid`
 let xTurn
 const WINNING_COMBINATIONS = [
 	[0, 1, 2],
@@ -36,6 +36,7 @@ function startGame() {
 			cell.classList.remove(X_CLASS)
 			cell.classList.remove(O_CLASS)
 			cell.classList.remove(DRAW_CLASS)
+			cell.classList.remove(INVALID_CLASS)
 			cell.removeEventListener('click', handleClick)
 			cell.addEventListener('click', handleClick, { once: true })
 		})
@@ -49,13 +50,14 @@ function handleClick(e) {
 	const currentClass = xTurn ? X_CLASS : O_CLASS
 	placeMark(cell, currentClass)
 	boards.forEach((board, index) => {
-		if (checkWin(currentClass, cells[index])) {
-			placeMark(board, currentClass)
+		const winIndex = checkWin(currentClass, cells[index]);
+		if (winIndex > -1) {
+			endBoard(board, false, currentClass, WINNING_COMBINATIONS[winIndex])
 		} else if (checkDraw(cells[index])) {
-			placeMark(board, DRAW_CLASS)
+			endBoard(board, true)
 		}
 	})
-	if (checkWin(currentClass, boards)) {
+	if (checkWin(currentClass, boards) > -1) {
 		endField(false)
 	} else if (checkDraw(boards)) {
 		endField(true)
@@ -65,12 +67,40 @@ function handleClick(e) {
 
 
 function placeMark(element, currentClass) {
-	if (!element.classList.contains(currentClass))
+	if (!checkElement(element) && !element.classList.contains(currentClass))
 		element.classList.add(currentClass)
+}
+
+function checkElement(element) {
+	return element.classList.contains(X_CLASS) ||
+		element.classList.contains(O_CLASS) ||
+		element.classList.contains(DRAW_CLASS)
 }
 
 function swapTurns() {
 	xTurn = !xTurn
+}
+
+function endBoard(board, isDraw, currentClass, combination) {
+	if (!checkElement(board))
+		if (!isDraw) {
+			placeMark(board, currentClass)
+			const boardCells = Array.from(board.children)
+			boardCells.forEach(cell => {
+				if (!cell.classList.contains(INVALID_CLASS))
+					cell.classList.add(INVALID_CLASS)
+			})
+			combination.forEach(index => {
+				boardCells[index].classList.remove(INVALID_CLASS)
+			})
+		} else {
+			placeMark(board, DRAW_CLASS)
+			const boardCells = Array.from(board.children)
+			boardCells.forEach(cell => {
+				if (!cell.classList.contains(INVALID_CLASS))
+					cell.classList.add(INVALID_CLASS)
+			})
+		}
 }
 
 function endField(isDraw) {
@@ -83,11 +113,11 @@ function endField(isDraw) {
 }
 
 function checkWin(currentClass, elements) {
-	return WINNING_COMBINATIONS.some(combination => {
-		return combination.every(index => {
-			return elements[index].classList.contains(currentClass)
-		})
-	})
+	return WINNING_COMBINATIONS.findIndex((combination, i) =>
+		combination.every(index =>
+			elements[index].classList.contains(currentClass)
+		)
+	)
 }
 
 function checkDraw(elements) {
