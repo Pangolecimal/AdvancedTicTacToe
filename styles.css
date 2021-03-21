@@ -111,8 +111,19 @@ body {
 	opacity: 0.5;
 }
 
-.invalid, .won {
+.cell.o.won::after {
+	width: calc(var(--mark-size) * 0.7);
+	height: calc(var(--mark-size) * 0.7);
+	background: var(--cell-color);
+	opacity: 0.25;
+}
+
+.invalid {
 	background: rgba(0, 0, 0, 0.5);
+}
+
+.won {
+	background: rgba(0, 0, 0, 0.75)
 }
 
 .winning-message {
