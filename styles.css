@@ -1,0 +1,125 @@
+*, *::after, *::before {
+	box-sizing: border-box;
+}
+
+:root {
+	--field-size: calc(min(100vw, 100vh) * 0.9);
+	--board-size: calc(var(--field-size) / 3 * 0.99);
+	--cell-size: calc(var(--board-size) / 3 * 0.9);
+	--mark-size: calc(var(--cell-size) * 0.75);
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #f4f4f4;
+}
+
+.field {
+	width: var(--field-size);
+	height: var(--field-size);
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: calc((min(100vw, 100vh)-var(--field-size))/2);
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	grid-template-columns: repeat(3, auto);
+	transform: translate(0, -50%);
+	box-shadow: 0 0 0 calc(var(--field-size)*0.01) #555;
+}
+
+.board {
+	width: var(--board-size);
+	height: var(--board-size);
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	justify-items: center;
+	align-items: center;
+	grid-template-columns: repeat(3, auto);
+
+	box-shadow: 0 0 0 calc(var(--board-size)*0.01) #999;
+}
+
+.cell {
+	width: var(--cell-size);
+	height: var(--cell-size);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+
+	box-shadow: 0 0 0 calc(var(--cell-size)*0.01) #ccc;
+}
+
+.cell.x::before,
+.cell.x::after,
+.cell.o::before {
+	background-color: black;
+}
+
+.cell.x::before,
+.cell.x::after {
+	content: '';
+	position: absolute;
+	width: calc(var(--mark-size) * 0.15);
+	height: var(--mark-size);
+}
+
+.cell.x::before {
+	transform: rotate(45deg);
+}
+.cell.x::after {
+	transform: rotate(-45deg);
+}
+
+.cell.o::before,
+.cell.o::after {
+	content: '';
+	position: absolute;
+	border-radius: 50%;
+}
+
+.cell.o::before {
+	width: var(--mark-size);
+	height: var(--mark-size);
+}
+
+.cell.o::after {
+	width: calc(var(--mark-size) * 0.7);
+	height: calc(var(--mark-size) * 0.7);
+	background: white;
+}
+
+.winning-message {
+	display: none;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0,0,0,0.9);
+	justify-content: center;
+	align-items: center;
+	color: white;
+	font-size: 5rem;
+	flex-direction: column;
+}
+
+.winning-message button {
+	font-size: 3rem;
+	background-color: white;
+	border: 1px solid black;
+	padding: 0.25em 0.5em;
+	cursor: pointer;
+}
+.winning-message button:hover {
+	background-color: black;
+	color: white;
+	border-color: white;
+}
+
+.winning-message.show {
+	display: flex;
+}
