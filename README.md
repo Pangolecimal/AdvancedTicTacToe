@@ -1,2 +1,0 @@
-# AdvancedTicTacToe
-Complex TicTacToe
