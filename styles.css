@@ -2,22 +2,28 @@
 	box-sizing: border-box;
 }
 
-html, body {
+body {
 	margin: 0;
-	padding: 1vh;
+	padding-top: calc(var(--cell-size) / 2);
+	padding-bottom: calc(var(--cell-size) / 2);
+	background-color: #444;
 }
 
 :root {
-	--field-size: calc(var(--board-size) * 3 + var(--field-border) * 4);
-	--field-border: calc(var(--board-border) * 2);
-	--board-size: calc(var(--cell-size) * 3 + var(--board-border) * 4);
+	--field-size: calc(var(--board-size) * 3 + var(--field-border) * 5);
+	--field-border: calc(var(--cell-border) * 4);
+	--board-size: calc(var(--cell-size) * 3 + var(--board-border) * 5);
 	--board-border: calc(var(--cell-border) * 4);
-	--cell-size: min(9vw, 9vh);
-	--cell-border: max(calc(var(--cell-size) * 0.02), 1px);
+	--cell-size: min(7vw, 7vh);
+	--cell-border: max(calc(var(--cell-size) * 0.04), 1px);
+	/**/
 	--mark-size: calc(var(--cell-size) * 0.75);
-	--field-border-color: #555;
-	--board-border-color: #999;
-	--cell-border-color: #ccc;
+	--field-color: #bbb;
+	--field-border-color: #333;
+	--board-color: #ddd;
+	--board-border-color: #777;
+	--cell-color: #fff;
+	--cell-border-color: #aaa;
 }
 
 .field {
@@ -28,9 +34,10 @@ html, body {
 	display: grid;
 	grid-template-columns: repeat(3, var(--board-size));
 	grid-template-rows: repeat(3, var(--board-size));
-	outline: calc(var(--field-border) / 2) solid var(--field-border-color);
-	gap: var(--field-border);
+	box-shadow: 0 0 var(--field-border) var(--field-border) var(--field-border-color);
+	gap: calc(var(--field-border) * 1.5);
 	padding: var(--field-border);
+	background-color: var(--field-color);
 }
 
 .field * {
@@ -41,9 +48,10 @@ html, body {
 	display: grid;
 	grid-template-columns: repeat(3, var(--cell-size));
 	grid-template-rows: repeat(3, var(--cell-size));
-	outline: calc(var(--board-border) / 2) solid var(--board-border-color);
-	gap: var(--board-border);
+	box-shadow: 0 0 calc(var(--board-border) / 2) calc(var(--board-border) / 2) var(--board-border-color);
+	gap: calc(var(--board-border) * 1.5);
 	padding: var(--board-border);
+	background-color: var(--board-color);
 }
 
 .board * {
@@ -51,11 +59,12 @@ html, body {
 }
 
 .cell {
-	outline: calc(var(--cell-border) / 2) solid var(--cell-border-color);
+	box-shadow: 0 0 calc(var(--cell-border) * 2) calc(var(--cell-border) *2) var(--cell-border-color);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: relative;
+	background-color: var(--cell-color);
 }
 
 .cell.x::before, .cell.x::after, .cell.o::before {
@@ -91,13 +100,15 @@ html, body {
 .cell.o:not(.invalid)::after {
 	width: calc(var(--mark-size) * 0.7);
 	height: calc(var(--mark-size) * 0.7);
-	background: white;
+	background: var(--cell-color);
+	opacity: 1;
 }
 
 .cell.o::after {
 	width: calc(var(--mark-size) * 0.7);
 	height: calc(var(--mark-size) * 0.7);
-	background: rgba(255, 255, 255, 0.5);
+	background: var(--cell-color);
+	opacity: 0.5;
 }
 
 .invalid {
