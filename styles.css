@@ -4,8 +4,8 @@
 
 body {
 	margin: 0;
-	padding-top: calc(var(--cell-size) / 2);
-	padding-bottom: calc(var(--cell-size) / 2);
+	padding-top: calc(var(--cell-size) / 3);
+	padding-bottom: calc(var(--cell-size) / 3);
 	background-color: #444;
 }
 
@@ -97,7 +97,7 @@ body {
 	height: var(--mark-size);
 }
 
-.cell.o:not(.invalid)::after {
+.cell.o:not(.invalid):not(.won)::after {
 	width: calc(var(--mark-size) * 0.7);
 	height: calc(var(--mark-size) * 0.7);
 	background: var(--cell-color);
@@ -111,7 +111,7 @@ body {
 	opacity: 0.5;
 }
 
-.invalid {
+.invalid, .won {
 	background: rgba(0, 0, 0, 0.5);
 }
 
@@ -146,4 +146,12 @@ body {
 
 .winning-message.show {
 	display: flex;
+}
+
+.next-turn {
+	color: white;
+	text-align: center;
+	font-size: 10vh;
+	font-family: sans-serif;
+	text-shadow: 0 0 1vh black;
 }
