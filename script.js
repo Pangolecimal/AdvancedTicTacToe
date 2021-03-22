@@ -7,7 +7,7 @@ const winningMessageElement = document.getElementById(`winningMessage`)
 const restartButton = document.getElementById(`restartButton`)
 const nextTurnElement = document.querySelector(`#nextTurn`)
 
-let xTurn, firstTurn, nextBoardIndex
+let xTurn, firstTurn
 const X_CLASS = `x`, O_CLASS = `o`, DRAW_CLASS = `draw`, INVALID_CLASS = `invalid`, WON_CLASS = `won`
 const WINNING_COMBINATIONS = [
 	[0, 1, 2],
@@ -60,21 +60,35 @@ function handleClick(e) {
 					cell.classList.remove(INVALID_CLASS)
 				})
 			})
-		}
 
-		nextBoardIndex = Array.from(cell.parentElement.children).indexOf(cell)
-		cells.forEach((boardCells, boardIndex) => {
-			if (nextBoardIndex !== boardIndex) {
-				boardCells.forEach(cell => {
-					if (!cell.classList.contains(INVALID_CLASS))
-						cell.classList.add(INVALID_CLASS)
-				})
-			} else {
-				boardCells.forEach(cell => {
-					cell.classList.remove(INVALID_CLASS)
-				})
-			}
-		})
+			const currentBoardIndex = boards.indexOf(cell.parentElement)
+			cells.forEach((boardCells, boardIndex) => {
+				if (boardIndex === currentBoardIndex) {
+					boardCells.forEach(cell => {
+						if (!cell.classList.contains(INVALID_CLASS))
+							cell.classList.add(INVALID_CLASS)
+					})
+				} else {
+					boardCells.forEach((cell, cellIndex) => {
+						cell.classList.remove(INVALID_CLASS)
+					})
+				}
+			})
+		} else {
+			const nextBoardIndex = Array.from(cell.parentElement.children).indexOf(cell)
+			cells.forEach((boardCells, boardIndex) => {
+				if (boardIndex !== nextBoardIndex) {
+					boardCells.forEach(cell => {
+						if (!cell.classList.contains(INVALID_CLASS))
+							cell.classList.add(INVALID_CLASS)
+					})
+				} else {
+					boardCells.forEach(cell => {
+						cell.classList.remove(INVALID_CLASS)
+					})
+				}
+			})
+		}
 
 		const currentClass = xTurn ? X_CLASS : O_CLASS
 		placeMark(cell, currentClass)
