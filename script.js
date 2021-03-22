@@ -42,7 +42,7 @@ function startGame() {
 			cell.classList.remove(WON_CLASS)
 			cell.removeEventListener('click', handleClick)
 			cell.addEventListener('click', handleClick, { once: true })
-			if (boardIndex !== cellIndex) cell.classList.add(INVALID_CLASS)
+			if (boardIndex === cellIndex) cell.classList.add(INVALID_CLASS)
 		})
 	})
 	winningMessageElement.classList.remove(`show`)
