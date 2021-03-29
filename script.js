@@ -42,7 +42,6 @@ function startGame() {
 			cell.classList.remove(WON_CLASS)
 			cell.removeEventListener('click', handleClick)
 			cell.addEventListener('click', handleClick, { once: true })
-			if (boardIndex !== cellIndex) cell.classList.add(INVALID_CLASS)
 		})
 	})
 	winningMessageElement.classList.remove(`show`)
@@ -53,42 +52,19 @@ startGame()
 function handleClick(e) {
 	const cell = e.target
 	if (!cell.classList.contains(INVALID_CLASS)) {
-		if (firstTurn) {
-			firstTurn = false;
-			cells.forEach((boardCells, boardIndex) => {
+		const currentBoardIndex = boards.indexOf(cell.parentElement)
+	        cells.forEach((boardCells, boardIndex) => {
+			if (boardIndex === currentBoardIndex) {
+				boardCells.forEach(cell => {
+					if (!cell.classList.contains(INVALID_CLASS))
+						cell.classList.add(INVALID_CLASS)
+				})
+			} else {
 				boardCells.forEach((cell, cellIndex) => {
 					cell.classList.remove(INVALID_CLASS)
 				})
-			})
-
-			const currentBoardIndex = boards.indexOf(cell.parentElement)
-			cells.forEach((boardCells, boardIndex) => {
-				if (boardIndex === currentBoardIndex) {
-					boardCells.forEach(cell => {
-						if (!cell.classList.contains(INVALID_CLASS))
-							cell.classList.add(INVALID_CLASS)
-					})
-				} else {
-					boardCells.forEach((cell, cellIndex) => {
-						cell.classList.remove(INVALID_CLASS)
-					})
-				}
-			})
-		} else {
-			const nextBoardIndex = Array.from(cell.parentElement.children).indexOf(cell)
-			cells.forEach((boardCells, boardIndex) => {
-				if (boardIndex !== nextBoardIndex) {
-					boardCells.forEach(cell => {
-						if (!cell.classList.contains(INVALID_CLASS))
-							cell.classList.add(INVALID_CLASS)
-					})
-				} else {
-					boardCells.forEach(cell => {
-						cell.classList.remove(INVALID_CLASS)
-					})
-				}
-			})
-		}
+			}
+		})
 
 		const currentClass = xTurn ? X_CLASS : O_CLASS
 		placeMark(cell, currentClass)
@@ -107,7 +83,6 @@ function handleClick(e) {
 		}
 		swapTurns()
 	}
-
 }
 
 
