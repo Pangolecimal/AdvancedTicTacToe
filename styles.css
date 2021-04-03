@@ -4,67 +4,68 @@
 
 body {
 	margin: 0;
-	padding-top: calc(var(--cell-size) / 3);
-	padding-bottom: calc(var(--cell-size) / 3);
+	padding: 0;
 	background-color: #444;
 }
 
 :root {
-	--field-size: calc(var(--board-size) * 3 + var(--field-border) * 5);
-	--field-border: calc(var(--cell-border) * 4);
-	--board-size: calc(var(--cell-size) * 3 + var(--board-border) * 5);
-	--board-border: calc(var(--cell-border) * 4);
-	--cell-size: min(7vw, 7vh);
-	--cell-border: max(calc(var(--cell-size) * 0.04), 1px);
+	--grid-size: min(100vw, 70vh);
+	--board-size: calc(var(--grid-size) / 3);
+	--cell-size: calc(var(--board-size) / 3 * 0.9);
+	/**/
+	--grid-border: calc(max(var(--grid-size) * 0.01, 1px));
+	--board-border: calc(max(var(--board-size) * 0.05, 1px));
+	--cell-border: calc(max(var(--cell-size) * 0.1, 1px));
 	/**/
 	--mark-size: calc(var(--cell-size) * 0.75);
-	--field-color: #bbb;
-	--field-border-color: #333;
+	/**/
+	--grid-color: #bbb;
 	--board-color: #ddd;
-	--board-border-color: #777;
 	--cell-color: #fff;
+	/**/
+	--grid-border-color: #333;
+	--board-border-color: #777;
 	--cell-border-color: #aaa;
+	/**/
+	--invalid-color: rgba(0, 0, 0, 0.5);
+	--won-color: rgba(0, 0, 0, 0.75);
 }
 
-.field {
-	width: var(--field-size);
-	height: var(--field-size);
-	margin-left: auto;
-	margin-right: auto;
+.container {
+	/* background: red; */
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.grid {
 	display: grid;
 	grid-template-columns: repeat(3, var(--board-size));
 	grid-template-rows: repeat(3, var(--board-size));
-	box-shadow: 0 0 var(--field-border) var(--field-border) var(--field-border-color);
-	gap: calc(var(--field-border) * 1.5);
-	padding: var(--field-border);
-	background-color: var(--field-color);
-}
-
-.field * {
-	position: relative;
+	position: absolute;
+	padding: var(--grid-border);
+	background-color: var(--grid-color);
+	box-shadow: 0 0 0 2px black;
+	top: 0;
 }
 
 .board {
 	display: grid;
 	grid-template-columns: repeat(3, var(--cell-size));
 	grid-template-rows: repeat(3, var(--cell-size));
-	box-shadow: 0 0 calc(var(--board-border) / 2) calc(var(--board-border) / 2) var(--board-border-color);
-	gap: calc(var(--board-border) * 1.5);
-	padding: var(--board-border);
+	margin: calc(var(--board-border) * 1);
 	background-color: var(--board-color);
-}
-
-.board * {
-	position: relative;
+	box-shadow: 0 0 0 2px black;
 }
 
 .cell {
-	box-shadow: 0 0 calc(var(--cell-border) * 2) calc(var(--cell-border) *2) var(--cell-border-color);
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	position: relative;
 	background-color: var(--cell-color);
+	margin: var(--cell-border);
+	box-shadow: 0 0 0 2px black;
 }
 
 .cell.x::before, .cell.x::after, .cell.o::before {
@@ -119,11 +120,11 @@ body {
 }
 
 .invalid {
-	background: rgba(0, 0, 0, 0.5);
+	background: var(--invalid-color);
 }
 
 .won {
-	background: rgba(0, 0, 0, 0.75)
+	background: var(--won-color);
 }
 
 .winning-message {
@@ -165,4 +166,5 @@ body {
 	font-size: 10vh;
 	font-family: sans-serif;
 	text-shadow: 0 0 1vh black;
+	padding-top: 88vh;
 }
