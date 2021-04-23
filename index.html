@@ -11,114 +11,142 @@
 </head>
 
 <body>
-	<div class="container">
-		<div class="grid" id="grid">
-			<div class="board" id="board">
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-			</div>
-			<div class="board" id="board">
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-			</div>
-			<div class="board" id="board">
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-			</div>
-			<div class="board" id="board">
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-			</div>
-			<div class="board" id="board">
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-			</div>
-			<div class="board" id="board">
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-			</div>
-			<div class="board" id="board">
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-			</div>
-			<div class="board" id="board">
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-			</div>
-			<div class="board" id="board">
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-				<div class="cell" id="cell"></div>
-			</div>
+	<nav class="navbar">
+		<div class="brand-title">TicTacSquared</div>
+		<div class="next-turn">Next Turn: X</div>
+		<div class="navbar-links">
+			<ul>
+				<li><a data-modal-target="#modal">About</a></li>
+				<li><a href="https://github.com/RehubCuper/AdvancedTicTacToe">GitHub</a></li>
+			</ul>
 		</div>
-		<div class="next-turn" id="nextTurn"></div>
+	</nav>
+	<div class="grid">
+		<div class="board">
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+		</div>
+		<div class="board">
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+		</div>
+		<div class="board">
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+		</div>
+		<div class="board">
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+		</div>
+		<div class="board">
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+		</div>
+		<div class="board">
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+		</div>
+		<div class="board">
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+		</div>
+		<div class="board">
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+		</div>
+		<div class="board">
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+			<div class="cell"></div>
+		</div>
+	</div>
+	<div class="grid-short">
+		<div class="board-short"></div>
+		<div class="board-short"></div>
+		<div class="board-short"></div>
+		<div class="board-short"></div>
+		<div class="board-short"></div>
+		<div class="board-short"></div>
+		<div class="board-short"></div>
+		<div class="board-short"></div>
+		<div class="board-short"></div>
 	</div>
 	<div class="winning-message" id="winningMessage">
 		<div data-winning-message-text></div>
 		<button id="restartButton">Restart</button>
 	</div>
+	<div class="modal" id="modal">
+		<div class="modal-header">
+			<div class="title">Правила Игры</div>
+			<button data-close-button class="close-button">&times;</button>
+		</div>
+		<p class="modal-body">
+			Они здесь точно будут...
+		</p>
+	</div>
+	<div id="overlay"></div>
 </body>
 
 </html>

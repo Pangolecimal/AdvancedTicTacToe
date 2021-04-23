@@ -1,11 +1,55 @@
-const grid = document.getElementById(`grid`)
+const grid = document.querySelector(`.grid`)
 const boards = Array.from(grid.children)
 const cells = boards.map(board => Array.from(board.children))
 
+const shortGrid = document.querySelector(`.grid-short`)
+const shortBoards = Array.from(shortGrid.children)
+
 const winningMessageTextElement = document.querySelector(`[data-winning-message-text]`)
-const winningMessageElement = document.getElementById(`winningMessage`)
-const restartButton = document.getElementById(`restartButton`)
-const nextTurnElement = document.querySelector(`#nextTurn`)
+const winningMessageElement = document.querySelector(`#winningMessage`)
+const restartButton = document.querySelector(`#restartButton`)
+const nextTurnElement = document.querySelector(`.next-turn`)
+
+//#region Modal
+{
+	const openModalButtons = document.querySelectorAll('[data-modal-target]')
+	const closeModalButtons = document.querySelectorAll('[data-close-button]')
+	const overlay = document.getElementById('overlay')
+
+	openModalButtons.forEach(button => {
+		button.addEventListener('click', () => {
+			const modal = document.querySelector(button.dataset.modalTarget)
+			openModal(modal)
+		})
+	})
+
+	overlay.addEventListener('click', () => {
+		const modals = document.querySelectorAll('.modal.active')
+		modals.forEach(modal => {
+			closeModal(modal)
+		})
+	})
+
+	closeModalButtons.forEach(button => {
+		button.addEventListener('click', () => {
+			const modal = button.closest('.modal')
+			closeModal(modal)
+		})
+	})
+
+	function openModal(modal) {
+		if (modal == null) return
+		modal.classList.add('active')
+		overlay.classList.add('active')
+	}
+
+	function closeModal(modal) {
+		if (modal == null) return
+		modal.classList.remove('active')
+		overlay.classList.remove('active')
+	}
+}
+//#endregion
 
 let xTurn
 const X_CLASS = `x`, O_CLASS = `o`, DRAW_CLASS = `draw`, INVALID_CLASS = `invalid`, WON_CLASS = `won`
@@ -25,19 +69,19 @@ restartButton.addEventListener('click', startGame)
 function startGame() {
 	xTurn = true
 	firstTurn = true
-	grid.classList.remove([X_CLASS, O_CLASS, DRAW_CLASS])
+	grid.classList.remove(X_CLASS, O_CLASS, DRAW_CLASS)
 	boards.forEach(board => {
-		board.classList.remove([X_CLASS, O_CLASS, DRAW_CLASS])
+		board.classList.remove(X_CLASS, O_CLASS, DRAW_CLASS)
 	})
-	cells.forEach((boardCells, boardIndex) => {
-		boardCells.forEach((cell, cellIndex) => {
-			cell.classList.remove([X_CLASS, O_CLASS, DRAW_CLASS, INVALID_CLASS, WON_CLASS])
+	cells.forEach(boardCells => {
+		boardCells.forEach(cell => {
+			cell.classList.remove(X_CLASS, O_CLASS, DRAW_CLASS, INVALID_CLASS, WON_CLASS)
 			cell.removeEventListener('click', handleClick)
 			cell.addEventListener('click', handleClick)
 		})
 	})
 	winningMessageElement.classList.remove(`show`)
-	nextTurnElement.innerText = `${xTurn ? `X` : `O`}'s Turn!`
+	nextTurnElement.innerText = `Next Turn: ${xTurn ? `X` : `O`}`
 }
 startGame()
 
@@ -46,19 +90,16 @@ function handleClick(e) {
 	if (checkElement(cell)) return
 	if (cell.classList.contains(INVALID_CLASS)) return
 
-	const currentBoardIndex = boards.indexOf(cell.parentElement)
-	const nextBoardIndex = Array.from(cell.parentElement.children).indexOf(cell)
+	const nextBoardIndex = getIndex(cell);
 
-	if (currentBoardIndex === nextBoardIndex) {
-		clearCells(INVALID_CLASS)
-
+	if (checkWin(cells[nextBoardIndex])) {
 		cells.forEach((boardCells, boardIndex) => {
-			if (boardIndex === currentBoardIndex) {
+			if (boardIndex === nextBoardIndex || checkWin(cells[boardIndex])) {
 				boardCells.forEach(cell => {
 					placeMark(cell, INVALID_CLASS)
 				})
 			} else {
-				boardCells.forEach((cell, cellIndex) => {
+				boardCells.forEach(cell => {
 					cell.classList.remove(INVALID_CLASS)
 				})
 			}
@@ -83,18 +124,21 @@ function handleClick(e) {
 		const winIndex = winCombinationIndex(currentClass, cells[index]);
 		if (winIndex > -1) {
 			endBoard(board, false, currentClass, WINNING_COMBINATIONS[winIndex])
-		} else if (checkDraw(cells[index])) {
+		} else if (checkWin(cells[index])) {
 			endBoard(board, true)
 		}
 	})
 	if (winCombinationIndex(currentClass, boards) > -1) {
 		endGrid(false)
-	} else if (checkDraw(boards)) {
+	} else if (checkWin(boards)) {
 		endGrid(true)
 	}
 	swapTurns()
 }
 
+function getIndex(element) {
+	return Array.from(element.parentElement.children).indexOf(element)
+}
 
 function clearCells(classToRemove) {
 	cells.forEach((boardCells) => {
@@ -105,8 +149,7 @@ function clearCells(classToRemove) {
 }
 
 function placeMark(element, currentClass) {
-	if (!element.classList.contains(currentClass))
-		element.classList.add(currentClass)
+	element.classList.toggle(currentClass, true)
 }
 
 function checkElement(element) {
@@ -117,26 +160,28 @@ function checkElement(element) {
 
 function swapTurns() {
 	xTurn = !xTurn
-	nextTurnElement.innerText = `${xTurn ? `X` : `O`}'s Turn!`
+	nextTurnElement.innerText = `Next Turn: ${xTurn ? `X` : `O`}`
 }
 
 function endBoard(board, isDraw, currentClass, combination) {
-	if (!checkElement(board))
+	if (!checkElement(board)) {
+		if (isDraw) {
+			placeMark(board, DRAW_CLASS)
+			const boardCells = Array.from(board.children)
+			boardCells.forEach(cell => {
+				placeMark(cell, WON_CLASS)
+			})
+		}
 		if (!isDraw) {
 			placeMark(board, currentClass)
 			const boardCells = Array.from(board.children)
 			combination.forEach(index => {
-				if (!boardCells[index].classList.contains(WON_CLASS))
-					boardCells[index].classList.add(WON_CLASS)
+				placeMark(boardCells[index], WON_CLASS)
 			})
-		} else {
-			placeMark(board, DRAW_CLASS)
-			const boardCells = Array.from(board.children)
-			boardCells.forEach(cell => {
-				if (!cell.classList.contains(WON_CLASS))
-					cell.classList.add(WON_CLASS)
-			})
+			const boardIndex = getIndex(board)
+			placeMark(shortBoards[boardIndex], currentClass)
 		}
+	}
 }
 
 function endGrid(isDraw) {
@@ -156,10 +201,10 @@ function winCombinationIndex(currentClass, elements) {
 	)
 }
 
-function checkDraw(elements) {
-	return elements.every(element => {
-		return element.classList.contains(X_CLASS) ||
-			element.classList.contains(O_CLASS) ||
-			element.classList.contains(DRAW_CLASS)
-	})
+function checkWin(elements) {
+	return elements.every(element =>
+		element.classList.contains(X_CLASS) ||
+		element.classList.contains(O_CLASS) ||
+		element.classList.contains(DRAW_CLASS)
+	)
 }
