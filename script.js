@@ -69,6 +69,10 @@ restartButton.addEventListener('click', startGame)
 function startGame() {
 	xTurn = true
 	firstTurn = true
+	shortGrid.classList.remove(X_CLASS, O_CLASS, DRAW_CLASS)
+	shortBoards.forEach(shortBoard => {
+		shortBoard.classList.remove(X_CLASS, O_CLASS, DRAW_CLASS)
+	})
 	grid.classList.remove(X_CLASS, O_CLASS, DRAW_CLASS)
 	boards.forEach(board => {
 		board.classList.remove(X_CLASS, O_CLASS, DRAW_CLASS)
