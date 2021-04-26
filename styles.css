@@ -11,7 +11,7 @@ body {
 :root {
 	--grid-size: calc(var(--board-size) * 3 + var(--grid-border) * 4);
 	--board-size: calc(var(--cell-size) * 3 + var(--board-border) * 4);
-	--cell-size: 5vmin;
+	--cell-size: 7vmin;
 	/**/
 	--grid-border: calc(var(--board-border) * 2);
 	--board-border: calc(var(--cell-border) * 2);
@@ -33,6 +33,20 @@ body {
 	/**/
 	--navbar-color: #333;
 	--navbar-links-color: #444;
+	--nav-font-size: 4vmin;
+}
+
+/* container for both grids */
+
+.grids-container {
+	display: grid;
+	place-items: center;
+	grid-template-columns: var(--grid-size) var(--board-size);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-45%, -45%);
+	gap: 1vmin;
 }
 
 /* short grid */
@@ -40,16 +54,13 @@ body {
 .grid-short {
 	width: var(--board-size);
 	height: var(--board-size);
-	margin-left: auto;
-	margin-right: auto;
 	display: grid;
 	grid-template-columns: repeat(3, var(--cell-size));
 	grid-template-rows: repeat(3, var(--cell-size));
-	outline: calc(var(--board-border) / 2) solid var(--grid-border-color);
+	box-shadow: inset 0 0 0 calc(var(--board-border) / 2) var(--grid-border-color);
 	background-color: var(--grid-color);
 	gap: var(--board-border);
 	padding: var(--board-border);
-	margin-top: calc(var(--board-border) * 2);
 }
 
 .grid-short * {
@@ -57,7 +68,7 @@ body {
 }
 
 .board-short {
-	outline: calc(var(--cell-border) / 2) solid var(--board-border-color);
+	box-shadow: inset 0 0 0 calc(var(--cell-border) / 2) var(--board-border-color);
 	background-color: var(--board-color);
 	display: flex;
 	justify-content: center;
@@ -70,15 +81,12 @@ body {
 .grid {
 	width: var(--grid-size);
 	height: var(--grid-size);
-	margin-left: auto;
-	margin-right: auto;
 	display: grid;
 	grid-template-columns: repeat(3, var(--board-size));
 	grid-template-rows: repeat(3, var(--board-size));
 	gap: var(--grid-border);
 	padding: var(--grid-border);
-	margin-top: calc(var(--grid-border) * 2);
-	outline: calc(var(--grid-border) / 2) solid var(--grid-border-color);
+	box-shadow: inset 0 0 0 calc(var(--grid-border) / 2) var(--grid-border-color);
 	background: var(--grid-color);
 }
 
@@ -90,7 +98,7 @@ body {
 	display: grid;
 	grid-template-columns: repeat(3, var(--cell-size));
 	grid-template-rows: repeat(3, var(--cell-size));
-	outline: calc(var(--board-border) / 2) solid var(--board-border-color);
+	box-shadow: inset 0 0 0 calc(var(--board-border) / 2) var(--board-border-color);
 	background-color: var(--board-color);
 	gap: var(--board-border);
 	padding: var(--board-border);
@@ -101,7 +109,7 @@ body {
 }
 
 .cell {
-	outline: calc(var(--cell-border) / 2) solid var(--cell-border-color);
+	box-shadow: inset 0 0 0 calc(var(--cell-border) / 2) var(--cell-border-color);
 	background-color: var(--cell-color);
 	display: flex;
 	justify-content: center;
@@ -112,6 +120,8 @@ body {
 /* navbar */
 
 .navbar {
+	width: 100vw;
+	height: calc(var(--nav-font-size) * 2);
 	display: flex;
 	position: relative;
 	justify-content: space-between;
@@ -121,8 +131,8 @@ body {
 }
 
 .brand-title {
-	font-size: 3.5rem;
-	margin: .5rem;
+	font-size: var(--nav-font-size);
+	padding: calc(var(--nav-font-size) * 0.5);
 }
 
 .navbar-links {
@@ -143,22 +153,20 @@ body {
 	display: block;
 	text-decoration: none;
 	color: white;
-	padding: 1rem;
-	font-size: 3rem;
+	padding: calc(var(--nav-font-size) * 0.4);
+	font-size: var(--nav-font-size);
 }
 
 .navbar-links li:hover {
 	background-color: var(--navbar-links-color);
 }
 
-.next-turn {
-	font-size: 3rem;
-}
+/* next turn */
 
-@media (max-width: 1080px) {
-	:root {
-		--cell-size: 8vmin;
-	}
+.next-turn {
+	padding: 0 10px 0 10px;
+	font-size: var(--nav-font-size);
+	/* box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.05); */
 }
 
 /* mark display */
